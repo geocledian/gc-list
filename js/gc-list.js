@@ -1,8 +1,8 @@
 /*
  Vue.js Geocledian list component
  created:     2020-01-14, jsommer
- last update: 2020-04-23, jsommer
- version: 0.6
+ last update: 2020-04-29, jsommer
+ version: 0.6.1
 */
 "use strict";
 
@@ -28,14 +28,32 @@ Vue.component('gc-list', {
       type: String,
       default: ''
     },
+    gcAvailableFields: {
+      type: String,
+      default: 'parcelId,name,crop,entity,planting,harvest,area,promotion,fieldAnalysis'
+    },
+    gcFieldAnalysisLink: {
+      type: String,
+      default: undefined
+    },
+    gcAvailableOptions: {
+      type: String,
+      default: 'optionsTitle'
+    },
+    gcOptionsCollapsed: {
+      type: String,
+      default: 'true' // or false
+    },
   },
   template: `<div :id="this.listid" class="is-inline">
-              <p class="listOptionsTitle is-size-6 is-orange is-inline-block" style="margin-bottom: 1.0rem; cursor: default;"
-                  v-on:click="toggleListOptions">
+              <p class="gc-options-title is-size-6 has-text-weight-bold is-orange" 
+                  style="cursor: pointer; margin-bottom: 1em;"  
+                  v-on:click="toggleListOptions"
+                  v-show="availableOptions.includes('optionsTitle')">
                Parcel list
-               <!-- i class="fas fa-angle-down fa-sm"></i -->
+               <i :class="[JSON.parse(gcOptionsCollapsed) ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
               </p>
-              <div :id="'listOptions_'+listid" class="listOptions is-horizontal is-flex is-hidden">
+              <div :id="'listOptions_'+listid" class="is-horizontal is-flex is-hidden">
               <!--div class="is-horizontal is-flex">
                 <div class="field is-vertical">
                   <div class="field-label">
@@ -52,7 +70,7 @@ Vue.component('gc-list', {
                 </div -->
             </div><!-- list options -->
 
-            <div :id="'list_'+ this.listid" class="gc-list">
+            <div :id="'list_'+ this.listid" :class="[JSON.parse(gcOptionsCollapsed) ? '': 'is-hidden']">
 
             <!-- data -->
             <div :id="'listTable_'+listid" class="">
@@ -60,66 +78,81 @@ Vue.component('gc-list', {
                       v-model="parcels" v-if="parcels">
                 <thead class="title is-7">
                   <tr>
-                    <th style="white-space: nowrap;">ID
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('parcelId')">ID
                       <span class="">
                         <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('parcel_id')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap;">Name
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('name')">Name
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('name')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap;">Crop
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('crop')">Crop
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('crop')"></i>
                       </span>
                    </th>
-                    <th style="white-space: nowrap;">Entity
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('entity')">Entity
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('entity')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap;">Planting
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('planting')">Planting
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('planting')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap;">Harvest
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('harvest')">Harvest
                       <span class="" style="white-space: nowrap;">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('harvest')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap;">Area
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('area')">Area
                       <span class="" style="white-space: nowrap;">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('area')"></i>
                       </span>
-                    </th style="white-space: nowrap;">
-                    <!-- th>Promotion
+                    </th> 
+                    <!-- th style="white-space: nowrap;" v-show="availableFields.includes('promotion')">Promotion
                       <span class="">
-                      <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('promotion')"></i>
+                        <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('promotion')"></i>
                       </span>
                     </th -->
-                    </tr>
+                    <th style="white-space: nowrap;" v-show="availableFields.includes('fieldAnalysis')">
+                      <span class="" style="white-space: nowrap;"></span>
+                    </th>
+                  </tr>
                 </thead>
                 <tbody class="is-size-7">
                   <tr v-for="p in parcels" v-on:mouseover="setCurrentParcelId" style="cursor: pointer;">
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.parcel_id}}</span></td>
-                    <td v-else><span class="is-small">{{p.parcel_id}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.name}}</span></td>
-                    <td v-else><span class="is-small">{{p.name}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.crop}}</span></td>
-                    <td v-else><span class="is-small">{{p.crop}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.entity}}</span></td>
-                    <td v-else><span class="is-small">{{p.entity}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.planting}}</span></td>
-                    <td v-else><span class="is-small">{{p.planting}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.harvest}}</span></td>
-                    <td v-else><span class="is-small">{{p.harvest}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.area}}</span></td>
-                    <td v-else><span class="is-small">{{p.area}}</span></td>
-                    <!-- td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"><span class="is-small">{{p.promotion}}</span></td>
-                    <td v-else><span class="is-small">{{p.promotion}}</span></td -->
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('parcelId')"><span class="is-small">{{p.parcel_id}}</span></td>
+                    <td v-else  v-show="availableFields.includes('parcelId')"><span class="is-small">{{p.parcel_id}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('name')"><span class="is-small">{{p.name}}</span></td>
+                    <td v-else v-show="availableFields.includes('name')"><span class="is-small">{{p.name}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('crop')"><span class="is-small">{{p.crop}}</span></td>
+                    <td v-else  v-show="availableFields.includes('crop')"><span class="is-small">{{p.crop}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('entity')"><span class="is-small">{{p.entity}}</span></td>
+                    <td v-else v-show="availableFields.includes('entity')"><span class="is-small">{{p.entity}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('planting')"><span class="is-small">{{p.planting}}</span></td>
+                    <td v-else v-show="availableFields.includes('planting')"><span class="is-small">{{p.planting}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('harvest')"> <span class="is-small">{{p.harvest}}</span></td>
+                    <td v-else v-show="availableFields.includes('harvest')"><span class="is-small">{{p.harvest}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('area')"><span class="is-small">{{p.area}}</span></td>
+                    <td v-else v-show="availableFields.includes('area')"><span class="is-small">{{p.area}}</span></td>
+                    <!-- td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"<span class="is-small">{{p.promotion}}</span></td>
+                    <td v-else v-show="availableFields.includes('promotion')"><span class="is-small">{{p.promotion}}</span></td -->
+                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('fieldAnalysis')">                        
+                      <a :href="getFieldAnalysisLink()">
+                        <button class="button is-small is-light is-orange">
+                        <i class="fas fa-info-circle fa-sm" /><span class="content">Detailansicht</span>
+                        </button>
+                      </a>
+                    </td>
+                    <td v-else v-show="availableFields.includes('fieldAnalysis')">                        
+                      <a :href="getFieldAnalysisLink()"><button class="button is-small is-light is-orange">
+                        <i class="fas fa-info-circle fa-sm" /><span class="content">Detailansicht</span>
+                      </button></a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -171,6 +204,16 @@ Vue.component('gc-list', {
         this.$root.$emit('selectedParcelIdChange', parseInt(newValue));
       }
     },
+    availableFields: {
+      get: function () {
+        return this.gcAvailableFields.split(",");
+      }
+    },
+    availableOptions: {
+      get: function() {
+        return (this.gcAvailableOptions.split(","));
+      }
+    },
   },
   watch: {
     gcParcels: function(newValue, oldValue) {
@@ -180,37 +223,28 @@ Vue.component('gc-list', {
   },
   methods: {
     toggleListOptions: function() {
-      let isListOptionsActive = false;
-      isListOptionsActive = !(document.getElementById("listOptions_"+this.listid).classList.contains("is-hidden"));
-
-      if (isListOptionsActive) {
-        document.getElementById("listOptions_"+this.listid).classList.add("is-hidden");
-        document.getElementById(this.listid).getElementsByClassName("listOptionsTitle")[0].children[0].classList.remove("is-active");
-      }
-      else {
-        document.getElementById(this.listid).getElementsByClassName("listOptionsTitle")[0].children[0].classList.add("is-active");
-        document.getElementById("listOptions_"+this.listid).classList.remove("is-hidden");
-      }
+      this.gcOptionsCollapsed = !JSON.parse(this.gcOptionsCollapsed) + "";
     },
     setCurrentParcelId: function(event) {
       console.debug("setCurrentParcelId()");
+
+      // may be span or td or a (span -> td -> tr)
+      // walk the DOM upwards til found the tr element
+      let tr = event.target.parentElement;
+      while (true)  {
+        if (tr.localName === "tr") {
+          break;
+        }
+        else {
+          tr = tr.parentElement;
+        }
+      }
+
+      // parcel id is first td -> first span of tr
+      let id = tr.children[0].children[0].innerText;
+
+      this.selectedParcelId = parseInt(id);
       
-      // may be span or td (span -> td -> tr)
-      let tr;
-      if (event.target.parentElement.localName == "tr") {
-        tr = event.target.parentElement;
-      }
-      if (event.target.parentElement.parentElement.localName == "tr") {
-        tr = event.target.parentElement.parentElement;
-      }
-
-      if (tr.localName == "tr") {
-        // parcel id is first td -> first span
-        let id = tr.children[0].children[0].innerText;
-        console.debug(id);
-
-        this.selectedParcelId = parseInt(id);
-      }
     },
     sortByAttribute: function (attribute) {
       console.debug("sorting by "+ attribute);
@@ -229,6 +263,30 @@ Vue.component('gc-list', {
 
       // sort() will not trigger the rendering, so force it
       this.$forceUpdate();
+    },
+    getFieldAnalysisLink: function() {
+      // either configured base URL
+      if (this.gcFieldAnalysisLink) {
+        return this.gcFieldAnalysisLink + "&parcel_id="+this.selectedParcelId;
+      }
+      else {
+        // create dynamic link to analyst's dashboard
+        return this.generateAnalystDashboardLink(this.selectedParcelId);
+      }
+    },
+    generateAnalystDashboardLink: function (parcel_id) {
+      /* returns a dynamic link to the Analyst's Dashboard */
+
+      let apiKey = "";
+      let host = "";
+      if (this.gcApikey) {
+        apiKey = this.gcApikey;
+      }
+      if (this.gcHost) {
+        host = this.gcHost;
+      }
+
+      return "https://geocledian.com/agclient/analyst/?key="+apiKey + "&host=" +host+"&parcel_id="+parcel_id;;
     },
     /* helper functions */
     formatDecimal: function (decimal, numberOfDecimals) {
