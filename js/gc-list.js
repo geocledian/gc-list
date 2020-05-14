@@ -11,36 +11,35 @@ Vue.config.silent = true;
 
 //lanugage strings
 const gcListLocales = {
-  en: {
-    options: { title: 'Parcel list' },
-    fields: { id: 'id',
-              crop: 'crop',
-              entity: 'entity',
-              name: 'name',
-              planting: 'seeding',
-              harvest: 'harvest',
-              area: 'area',
-              promotion: 'promotion'
+  "en": {
+    "options": { "title": "Parcel list" },
+    "fields": { 
+      "id": "id",
+      "crop": "crop",
+      "entity": "entity",
+      "name": "name",
+      "planting": "seeding",
+      "harvest": "harvest",
+      "area": "area",
+      "promotion": "promotion"
     },
-    buttons: { fieldAnalysis : {title: 'Detail view'}}
+    "buttons": { "fieldAnalysis" : {"title": "Detail view"}}
   },
-  de: {
-    options: { title: 'Flächenliste'},
-    fields: { id: 'nr',
-              crop: 'frucht',
-              entity: 'entität',
-              name: 'name',
-              planting: 'pflanzung',
-              harvest: 'ernte',
-              area: 'fläche',
-              promotion: 'demo'
+  "de": {
+    "options": { "title": "Flächenliste"},
+    "fields": { 
+      "id": "nr",
+      "crop": "fruchtart",
+      "entity": "entität",
+      "name": "name",
+      "planting": "pflanzung",
+      "harvest": "ernte",
+      "area": "fläche",
+      "promotion": "demo"
     },
-    buttons: { fieldAnalysis : {title: 'Detailansicht'}}
+    "buttons": { "fieldAnalysis" : {"title": "Detailansicht"}}
   },
 }
-// append component's locale to global one
-gcLocales.en.gcList = gcListLocales.en;
-gcLocales.de.gcList = gcListLocales.de;
 
 Vue.component('gc-list', {
   props: {
@@ -83,11 +82,11 @@ Vue.component('gc-list', {
     }
   },
   template: `<div :id="this.listid" class="is-inline">
-              <p class="gc-options-title is-size-6 has-text-weight-bold is-orange" 
+              <p class="gc-options-title is-size-6 is-orange is-inline-block" 
                   style="cursor: pointer; margin-bottom: 1em;"  
                   v-on:click="toggleListOptions"
                   v-show="availableOptions.includes('optionsTitle')">
-               {{ $t('gcList.options.title')}}
+               {{ $t('options.title')}}
                <i :class="[JSON.parse(gcOptionsCollapsed) ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
               </p>
               <div :id="'listOptions_'+listid" class="is-horizontal is-flex is-hidden">
@@ -115,42 +114,42 @@ Vue.component('gc-list', {
                       v-model="parcels" v-if="parcels">
                 <thead class="title is-7">
                   <tr>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('parcelId')">{{$t('gcList.fields.id')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('parcelId')">{{$t('fields.id')}}
                       <span class="">
                         <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('parcel_id')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('name')">{{$t('gcList.fields.name')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('name')">{{$t('fields.name')}}
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('name')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('crop')">{{$t('gcList.fields.crop')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('crop')">{{$t('fields.crop')}}
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('crop')"></i>
                       </span>
                    </th>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('entity')">{{$t('gcList.fields.entity')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('entity')">{{$t('fields.entity')}}
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('entity')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('planting')">{{$t('gcList.fields.planting')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('planting')">{{$t('fields.planting')}}
                       <span class="">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('planting')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('harvest')">{{$t('gcList.fields.harvest')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('harvest')">{{$t('fields.harvest')}}
                       <span class="" style="white-space: nowrap;">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('harvest')"></i>
                       </span>
                     </th>
-                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('area')">{{$t('gcList.fields.area')}}
+                    <th style="white-space: nowrap; text-transform: capitalize;" v-show="availableFields.includes('area')">{{$t('fields.area')}}
                       <span class="" style="white-space: nowrap;">
                       <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('area')"></i>
                       </span>
                     </th> 
-                    <!-- th style="white-space: nowrap;" v-show="availableFields.includes('promotion')">{{$t('gcList.fields.promotion')}}
+                    <!-- th style="white-space: nowrap;" v-show="availableFields.includes('promotion')">{{$t('fields.promotion')}}
                       <span class="">
                         <i class="fas fa-sort" style="cursor: pointer;" v-on:click="sortByAttribute('promotion')"></i>
                       </span>
@@ -181,13 +180,13 @@ Vue.component('gc-list', {
                     <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('fieldAnalysis')">                        
                       <a :href="getFieldAnalysisLink()">
                         <button class="button is-small is-light is-orange">
-                        <i class="fas fa-info-circle fa-sm" /><span class="content">{{$t('gcList.buttons.fieldAnalysis.title')}}</span>
+                        <i class="fas fa-info-circle fa-sm" /><span class="content">{{$t('buttons.fieldAnalysis.title')}}</span>
                         </button>
                       </a>
                     </td>
                     <td v-else v-show="availableFields.includes('fieldAnalysis')">                        
                       <a :href="getFieldAnalysisLink()"><button class="button is-small is-light is-orange">
-                        <i class="fas fa-info-circle fa-sm" /><span class="content">{{$t('gcList.buttons.fieldAnalysis.title')}}</span>
+                        <i class="fas fa-info-circle fa-sm" /><span class="content">{{$t('buttons.fieldAnalysis.title')}}</span>
                       </button></a>
                     </td>
                   </tr>
@@ -204,9 +203,14 @@ Vue.component('gc-list', {
       lastSortOrder: false
     }
   },
-  i18n: new VueI18next(i18next), //init internationalization
+  //init internationalization
+  i18n: { 
+    locale: this.currentLanguage,
+    messages: gcListLocales
+  },
   created: function () {
-    console.debug("list! - created()");
+    console.debug("gc-list - created()");
+    this.changeLanguage(); //initial i18n from prop gcLanguage
   },
   /* when vue component is mounted (ready) on DOM node */
   mounted: function () {
@@ -314,7 +318,7 @@ Vue.component('gc-list', {
     getFieldAnalysisLink: function() {
       // either configured base URL
       if (this.gcFieldAnalysisLink) {
-        return this.gcFieldAnalysisLink + "&parcel_id="+this.selectedParcelId;
+        return this.gcFieldAnalysisLink + "?parcel_id="+this.selectedParcelId;
       }
       else {
         // create dynamic link to analyst's dashboard
@@ -362,7 +366,7 @@ Vue.component('gc-list', {
       return Math.ceil(decimal * factor) / factor;
     },
     changeLanguage() {
-      this.$i18n.i18next.changeLanguage(this.currentLanguage);
+      this.$i18n.locale = this.currentLanguage;
     }
   }
 });
