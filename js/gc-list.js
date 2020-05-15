@@ -1,8 +1,8 @@
 /*
  Vue.js Geocledian list component
  created:     2020-01-14, jsommer
- last update: 2020-05-13, jsommer
- version: 0.6.2
+ last update: 2020-05-15, jsommer
+ version: 0.6.3
 */
 "use strict";
 
@@ -70,9 +70,9 @@ Vue.component('gc-list', {
     },
     gcAvailableOptions: {
       type: String,
-      default: 'optionsTitle'
+      default: 'widgetTitle'
     },
-    gcOptionsCollapsed: {
+    gcWidgetCollapsed: {
       type: String,
       default: 'true' // or false
     },
@@ -85,9 +85,9 @@ Vue.component('gc-list', {
               <p class="gc-options-title is-size-6 is-orange is-inline-block" 
                   style="cursor: pointer; margin-bottom: 1em;"  
                   v-on:click="toggleListOptions"
-                  v-show="availableOptions.includes('optionsTitle')">
+                  v-show="availableOptions.includes('widgetTitle')">
                {{ $t('options.title')}}
-               <i :class="[JSON.parse(gcOptionsCollapsed) ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
+               <i :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
               </p>
               <div :id="'listOptions_'+listid" class="is-horizontal is-flex is-hidden">
               <!--div class="is-horizontal is-flex">
@@ -106,7 +106,7 @@ Vue.component('gc-list', {
                 </div -->
             </div><!-- list options -->
 
-            <div :id="'list_'+ this.listid" :class="[JSON.parse(gcOptionsCollapsed) ? '': 'is-hidden']">
+            <div :id="'list_'+ this.listid" :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-hidden']">
 
             <!-- data -->
             <div :id="'listTable_'+listid" class="">
@@ -274,7 +274,7 @@ Vue.component('gc-list', {
   },
   methods: {
     toggleListOptions: function() {
-      this.gcOptionsCollapsed = !JSON.parse(this.gcOptionsCollapsed) + "";
+      this.gcWidgetCollapsed = !JSON.parse(this.gcWidgetCollapsed) + "";
     },
     setCurrentParcelId: function(event) {
       console.debug("setCurrentParcelId()");
