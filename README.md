@@ -22,7 +22,11 @@ As there are defaults you will only have to set an attribute to change the defau
 ## Integration
 For the integration of the widget you'll have to follow these steps.
 
-You have to add some dependencies in the head tag of the container website.
+You have to add some dependencies in the head tag of the container website. 
+>Please ensure, that you load Vue.js (v.2.6.x) before loading the component first!
+Also note that <a href="www.bulma.org">bulma.css</a> and <a href="www.fontawesome.org">Font awesome</a> wll be loaded through gc-list.css.
+
+> **Embedded mode:** This widget expects a root Vue instance which controls it. It is is designed not be embedded by another Vue application, so there is no init script which loads dependent libraries and the root Vue instance. __You'll have to load at least Vue create the root Vue instance which controls the child by yourself.__ 
 
 ```html
 <html>
@@ -40,8 +44,6 @@ You have to add some dependencies in the head tag of the container website.
 ```
 
 Then you may create the widget(s) with custom HTML tags anywhere in the body section of the website. Make sure to use an unique identifier for each component. 
->Please ensure, that you load Vue.js (v.2.6.x) before loading the gc-filter component first!
-Also note that <a href="www.bulma.org">bulma.css</a> and <a href="www.fontawesome.org">Font awesome</a> wll be loaded through gc-filter.css.
 
 As the component does not have a loader for parcels it expects the get an array of parcel objects via the `gc-parcels` prop. In the following example the parcels array will be fed from the root Vue instance that controls the
 list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and highlight a selected parcel in the list with `gc-selected-parcel-id`. Not that `gc-selected-parcel-id` is an input to the widget but it also emit a new selected parcel id on mouse over event over the list's table row through the Vue EventBus system ('selectedParcelIdChange event).
