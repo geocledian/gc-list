@@ -51,7 +51,7 @@ list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and
 ```html
 <div id="gc-app">
     <gc-list
-        listid="list1"
+        gc-widget-id="list1"
         :gc-parcels="$root.parcels"
         :gc-visible-parcel-ids="$root.visibleParcelIds.join(',')"
         :gc-selected-parcel-id="$root.selectedParcelId"

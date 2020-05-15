@@ -43,7 +43,7 @@ const gcListLocales = {
 
 Vue.component('gc-list', {
   props: {
-    listid: {
+    gcWidgetId: {
       type: String,
       default: 'list1',
       required: true
@@ -81,7 +81,7 @@ Vue.component('gc-list', {
       default: 'de' // 'en' | 'de' | 'lt'
     }
   },
-  template: `<div :id="this.listid" class="is-inline">
+  template: `<div :id="this.gcWidgetId" class="is-inline">
               <p class="gc-options-title is-size-6 is-orange is-inline-block" 
                   style="cursor: pointer; margin-bottom: 1em;"  
                   v-on:click="toggleListOptions"
@@ -89,7 +89,7 @@ Vue.component('gc-list', {
                {{ $t('options.title')}}
                <i :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
               </p>
-              <div :id="'listOptions_'+listid" class="is-horizontal is-flex is-hidden">
+              <div :id="'listOptions_'+gcWidgetId" class="is-horizontal is-flex is-hidden">
               <!--div class="is-horizontal is-flex">
                 <div class="field is-vertical">
                   <div class="field-label">
@@ -106,10 +106,10 @@ Vue.component('gc-list', {
                 </div -->
             </div><!-- list options -->
 
-            <div :id="'list_'+ this.listid" :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-hidden']">
+            <div :id="'list_'+ this.gcWidgetId" :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-hidden']">
 
             <!-- data -->
-            <div :id="'listTable_'+listid" class="">
+            <div :id="'listTable_'+gcWidgetId" class="">
               <table class="table is-narrow is-fullwidth" 
                       v-model="parcels" v-if="parcels">
                 <thead class="title is-7">
@@ -196,7 +196,7 @@ Vue.component('gc-list', {
             <!-- data -->
 
           </div><!-- list -->            
-        </div><!-- listid -->`,
+        </div><!-- gcWidgetId -->`,
   data: function () {
     console.debug("list! - data()");
     return {
