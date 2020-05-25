@@ -1,8 +1,8 @@
 /*
  Vue.js Geocledian list component
  created:     2020-01-14, jsommer
- last update: 2020-05-15, jsommer
- version: 0.6.3
+ last update: 2020-05-26, jsommer
+ version: 0.6.4
 */
 "use strict";
 
@@ -320,24 +320,6 @@ Vue.component('gc-list', {
       if (this.gcFieldAnalysisLink) {
         return this.gcFieldAnalysisLink + "?parcel_id="+this.selectedParcelId;
       }
-      else {
-        // create dynamic link to analyst's dashboard
-        return this.generateAnalystDashboardLink(this.selectedParcelId);
-      }
-    },
-    generateAnalystDashboardLink: function (parcel_id) {
-      /* returns a dynamic link to the Analyst's Dashboard */
-
-      let apiKey = "";
-      let host = "";
-      if (this.gcApikey) {
-        apiKey = this.gcApikey;
-      }
-      if (this.gcHost) {
-        host = this.gcHost;
-      }
-
-      return "https://geocledian.com/agclient/analyst/?key="+apiKey + "&host=" +host+"&parcel_id="+parcel_id;;
     },
     /* helper functions */
     formatDecimal: function (decimal, numberOfDecimals) {
