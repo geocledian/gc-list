@@ -21,7 +21,7 @@ This widget is customizeable via HTML attributes and supports the setting of the
 
 ### Advanced options
 - gc-visible-parcel-ids: string (separated by ',') with visible parcel ids; only these will be shown from the whole set of parcels; default: ""
-- gc-selected-parcel-id: parcel id to highlight the row in the table. Works in both directions with emit(); default: ""
+- gc-current-parcel-id: parcel id to highlight the row in the table. Works in both directions with emit(); default: ""
 - gc-field-analysis-link: base URL for the detailed field analysis application; will be generated if not defined; default: undefined
 
 > __Note__: As there are defaults you will only have to set an attribute to change the default internal value.
@@ -53,7 +53,7 @@ Also note that <a href="www.bulma.org">bulma.css</a> and <a href="www.fontawesom
 Then you may create the widget(s) with custom HTML tags anywhere in the body section of the website. Make sure to use an unique identifier for each component. 
 
 As the component does not have a loader for parcels it expects the get an array of parcel objects via the `gc-parcels` prop. In the following example the parcels array will be fed from the root Vue instance that controls the
-list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and highlight a selected parcel in the list with `gc-selected-parcel-id`. Not that `gc-selected-parcel-id` is an input to the widget but it also emit a new selected parcel id on mouse over event over the list's table row through the Vue EventBus system ('selectedParcelIdChange event).
+list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and highlight a selected parcel in the list with `gc-current-parcel-id`. Not that `gc-current-parcel-id` is an input to the widget but it also emit a new selected parcel id on mouse over event over the list's table row through the Vue EventBus system ('selectedParcelIdChange event).
 
 ```html
 <div id="gc-app">
@@ -61,7 +61,7 @@ list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and
         gc-widget-id="list1"
         :gc-parcels="$root.parcels"
         :gc-visible-parcel-ids="$root.visibleParcelIds.join(',')"
-        :gc-selected-parcel-id="$root.selectedParcelId"
+        :gc-current-parcel-id="$root.selectedParcelId"
         :gc-widget-collapsed="true"
         gc-language="en">
     </gc-list>

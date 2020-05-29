@@ -1,8 +1,8 @@
 /*
  Vue.js Geocledian list component
  created:     2020-01-14, jsommer
- last update: 2020-05-26, jsommer
- version: 0.6.4
+ last update: 2020-05-29, jsommer
+ version: 0.6.5
 */
 "use strict";
 
@@ -56,7 +56,7 @@ Vue.component('gc-list', {
       type: String,
       default: ''
     },
-    gcSelectedParcelId: {      
+    gcCurrentParcelId: {      
       type: String,
       default: ''
     },
@@ -161,23 +161,23 @@ Vue.component('gc-list', {
                 </thead>
                 <tbody class="is-size-7">
                   <tr v-for="p in parcels" v-on:mouseover="setCurrentParcelId" style="cursor: pointer;">
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('parcelId')"><span class="is-small">{{p.parcel_id}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('parcelId')"><span class="is-small">{{p.parcel_id}}</span></td>
                     <td v-else  v-show="availableFields.includes('parcelId')"><span class="is-small">{{p.parcel_id}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('name')"><span class="is-small">{{p.name}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('name')"><span class="is-small">{{p.name}}</span></td>
                     <td v-else v-show="availableFields.includes('name')"><span class="is-small">{{p.name}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('crop')"><span class="is-small">{{p.crop}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('crop')"><span class="is-small">{{p.crop}}</span></td>
                     <td v-else  v-show="availableFields.includes('crop')"><span class="is-small">{{p.crop}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('entity')"><span class="is-small">{{p.entity}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('entity')"><span class="is-small">{{p.entity}}</span></td>
                     <td v-else v-show="availableFields.includes('entity')"><span class="is-small">{{p.entity}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('planting')"><span class="is-small">{{p.planting}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('planting')"><span class="is-small">{{p.planting}}</span></td>
                     <td v-else v-show="availableFields.includes('planting')"><span class="is-small">{{p.planting}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('harvest')"> <span class="is-small">{{p.harvest}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('harvest')"> <span class="is-small">{{p.harvest}}</span></td>
                     <td v-else v-show="availableFields.includes('harvest')"><span class="is-small">{{p.harvest}}</span></td>
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('area')"><span class="is-small">{{p.area}}</span></td>
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('area')"><span class="is-small">{{p.area}}</span></td>
                     <td v-else v-show="availableFields.includes('area')"><span class="is-small">{{p.area}}</span></td>
-                    <!-- td class="list-row-selected" v-if="p.parcel_id === selectedParcelId"<span class="is-small">{{p.promotion}}</span></td>
+                    <!-- td class="list-row-selected" v-if="p.parcel_id === currentParcelId"<span class="is-small">{{p.promotion}}</span></td>
                     <td v-else v-show="availableFields.includes('promotion')"><span class="is-small">{{p.promotion}}</span></td -->
-                    <td class="list-row-selected" v-if="p.parcel_id === selectedParcelId" v-show="availableFields.includes('fieldAnalysis')">                        
+                    <td class="list-row-selected" v-if="p.parcel_id === currentParcelId" v-show="availableFields.includes('fieldAnalysis')">                        
                       <a :href="getFieldAnalysisLink()">
                         <button class="button is-small is-light is-orange">
                         <i class="fas fa-info-circle fa-sm" /><span class="content">{{$t('buttons.fieldAnalysis.title')}}</span>
@@ -238,12 +238,12 @@ Vue.component('gc-list', {
         this.$root.$emit('visibleParcelIdsChange', newValue);
       }
     },
-    selectedParcelId: {
+    currentParcelId: {
       get: function () { 
-        return this.gcSelectedParcelId;
+        return this.gcCurrentParcelId;
       },
       set: function (newValue) {
-        this.$root.$emit('selectedParcelIdChange', parseInt(newValue));
+        this.$root.$emit('currentParcelIdChange', parseInt(newValue));
       }
     },
     availableFields: {
@@ -294,7 +294,7 @@ Vue.component('gc-list', {
       // parcel id is first td -> first span of tr
       let id = tr.children[0].children[0].innerText;
 
-      this.selectedParcelId = parseInt(id);
+      this.currentParcelId = parseInt(id);
       
     },
     sortByAttribute: function (attribute) {
@@ -318,7 +318,7 @@ Vue.component('gc-list', {
     getFieldAnalysisLink: function() {
       // either configured base URL
       if (this.gcFieldAnalysisLink) {
-        return this.gcFieldAnalysisLink + "?parcel_id="+this.selectedParcelId;
+        return this.gcFieldAnalysisLink + "?parcel_id="+this.currentParcelId;
       }
     },
     /* helper functions */
