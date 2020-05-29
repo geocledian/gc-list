@@ -7,17 +7,24 @@ You may but you don't have to build the rest of the container application with [
 ## Purpose
 With this widget you have a UI for listing parcels attributes from the REST API of ag|knowledge from geocledian.com.
 
-It is customizeable via HTML attributes and supports the setting of the following attributes:
-- gc-parcels: array of parcel objects to be displayed by the table list; default: []
-- gc-available-fields: limit the fields of the widget, e.g. "crop,name"; default: "parcelId,crop,name,entity,area,planting,harvest,promotion,fieldAnalysis"
+## Configuration
+This widget is customizeable via HTML attributes and supports the setting of the following attributes.
+
+### Basic options
+- gc-parcels: array of parcel objects to be displayed by the table list; e.g. "$root.parcels" (dynamically set from root); default: []
+- gc-language: initial locale language for translation, e.g. "en" for english; default: "en"
+
+### UI options
+- gc-available-fields: limit the fields of the widget, e.g. "crop,name"; default: "parcelId,name,crop,entity,planting,harvest,area,promotion,fieldAnalysis"
 - gc-available-options: limit the available options, e.g. "" for not title at all; default: "widgetTitle"
+- gc-widget-collapsed: start the widget with title only; content is hidden; default: "false"
+
+### Advanced options
 - gc-visible-parcel-ids: string (separated by ',') with visible parcel ids; only these will be shown from the whole set of parcels; default: ""
 - gc-selected-parcel-id: parcel id to highlight the row in the table. Works in both directions with emit(); default: ""
 - gc-field-analysis-link: base URL for the detailed field analysis application; will be generated if not defined; default: undefined
-- gc-widget-collapsed: start the widget with title only; content is hidden; default: "false"
-- gc-language: initial locale language for translation, e.g. "en" for english; default: "en"
 
-As there are defaults you will only have to set an attribute to change the default internal value.
+> __Note__: As there are defaults you will only have to set an attribute to change the default internal value.
 
 ## Integration
 For the integration of the widget you'll have to follow these steps.
@@ -55,6 +62,7 @@ list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and
         :gc-parcels="$root.parcels"
         :gc-visible-parcel-ids="$root.visibleParcelIds.join(',')"
         :gc-selected-parcel-id="$root.selectedParcelId"
+        :gc-widget-collapsed="true"
         gc-language="en">
     </gc-list>
 </div>

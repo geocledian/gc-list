@@ -73,8 +73,8 @@ Vue.component('gc-list', {
       default: 'widgetTitle'
     },
     gcWidgetCollapsed: {
-      type: String,
-      default: 'true' // or false
+      type: Boolean,
+      default: true // or false
     },
     gcLanguage: {
       type: String,
@@ -87,7 +87,7 @@ Vue.component('gc-list', {
                   v-on:click="toggleListOptions"
                   v-show="availableOptions.includes('widgetTitle')">
                {{ $t('options.title')}}
-               <i :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
+               <i :class="[gcWidgetCollapsed ? '': 'is-active', 'fas', 'fa-angle-down', 'fa-sm']"></i>
               </p>
               <div :id="'listOptions_'+gcWidgetId" class="is-horizontal is-flex is-hidden">
               <!--div class="is-horizontal is-flex">
@@ -106,7 +106,7 @@ Vue.component('gc-list', {
                 </div -->
             </div><!-- list options -->
 
-            <div :id="'list_'+ this.gcWidgetId" :class="[JSON.parse(gcWidgetCollapsed) ? '': 'is-hidden']">
+            <div :id="'list_'+ this.gcWidgetId" :class="[gcWidgetCollapsed ? '': 'is-hidden']">
 
             <!-- data -->
             <div :id="'listTable_'+gcWidgetId" class="">
@@ -274,7 +274,7 @@ Vue.component('gc-list', {
   },
   methods: {
     toggleListOptions: function() {
-      this.gcWidgetCollapsed = !JSON.parse(this.gcWidgetCollapsed) + "";
+      this.gcWidgetCollapsed = !this.gcWidgetCollapsed;
     },
     setCurrentParcelId: function(event) {
       console.debug("setCurrentParcelId()");
