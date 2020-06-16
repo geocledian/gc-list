@@ -330,7 +330,11 @@ Vue.component('gc-list', {
     getFieldAnalysisLink: function() {
       // either configured base URL
       if (this.gcFieldAnalysisLink) {
-        return this.gcFieldAnalysisLink + "&parcel_id="+this.currentParcelId;
+        // check for query parameter: ? -> append parcel_id with &
+        if ("?" in this.gcFieldAnalysisLink)
+          return this.gcFieldAnalysisLink + "&parcel_id="+this.currentParcelId;
+        else // else -> append parcel_id with ?
+          return this.gcFieldAnalysisLink + "?parcel_id="+this.currentParcelId;
       }
     },
     /* helper functions */
