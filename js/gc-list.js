@@ -1,7 +1,7 @@
 /*
  Vue.js Geocledian list component
  created:     2020-01-14, jsommer
- last update: 2020-05-29, jsommer
+ last update: 2020-06-16, jsommer
  version: 0.6.5
 */
 "use strict";
@@ -47,6 +47,18 @@ Vue.component('gc-list', {
       type: String,
       default: 'list1',
       required: true
+    },
+    gcApikey: {
+      type: String,
+      default: '39553fb7-7f6f-4945-9b84-a4c8745bdbec'
+    },
+    gcHost: {
+      type: String,
+      default: 'geocledian.com'
+    },
+    gcProxy: {
+      type: String,
+      default: undefined
     },
     gcParcels: { 
       type: Array, 
@@ -318,7 +330,7 @@ Vue.component('gc-list', {
     getFieldAnalysisLink: function() {
       // either configured base URL
       if (this.gcFieldAnalysisLink) {
-        return this.gcFieldAnalysisLink + "?parcel_id="+this.currentParcelId;
+        return this.gcFieldAnalysisLink + "&parcel_id="+this.currentParcelId;
       }
     },
     /* helper functions */
