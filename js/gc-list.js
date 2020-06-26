@@ -2,7 +2,7 @@
  Vue.js Geocledian list component
  created:     2020-01-14, jsommer
  last update: 2020-06-16, jsommer
- version: 0.6.5
+ version: 0.6.6
 */
 "use strict";
 
