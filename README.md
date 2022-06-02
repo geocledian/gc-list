@@ -69,7 +69,7 @@ list widget. You may also filter all the parcels via `gc-visible-parcel-ids` and
 ```
 
 ## Support
-Please contact [us](mailto:info@geocledian.com) from geocledian.com if you have troubles using the widget!
+The widget is provided as is and we accept no liability for the source code. In case of bugs or questions please contact us at [us](mailto:info@geocledian.com). We are also happy to receive feedback. Unfortunately we can only offer very limited technical support, especially about integration in third party software.
 
 ## Used Libraries
 - [Vue.js](https://www.vuejs.org)
